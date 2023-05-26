@@ -1,0 +1,52 @@
+{% extends 'todo/layout.html' %}
+
+{% block content %}
+<div class="container" id="container">
+	<div class="form-container sign-in-container">
+		<div class="p-3 mb-2 bg-warning text-dark" style="text-align: center;">
+			<h1>Tarjetas Disponibles</h1>
+		</div>
+                
+        <table class="table" style="width: 50%; font-size: 11px;">
+            <thead>
+              <tr>
+                <th>Numero de tarjeta: </th>
+                <th>Tipo</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for tarjeta in tarjetas %}
+                <tr>
+                    <td scope="row">{{ tarjeta.numero }}</td>
+                    <td>{{ tarjeta.tipo }}</td>
+                    <td>
+                        <a href="{% url 'tarjeta_delete' tarjeta.id %}">Eliminar</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+		<!--
+		<div class="container" style="text-align: center;">
+			{% for tarjeta in tarjetas %}
+				<div class="tarjeta" style="display: flex; justify-content: space-between; align-items: center;">
+					<div>
+						<p>Número de tarjeta: {{ tarjeta.numero }}</p>
+						
+					</div>
+					<button type="button" class="btn btn-danger">Eliminar</button>
+				</div>
+			{% endfor %}
+            <p>Saldo actual: {{ cliente.saldo }}</p>
+		</div>
+        -->
+		
+	</div>
+</div>
+<!-- Botón para agregar tarjeta -->
+<a href="{% url 'AddCard' user.DNI%}" class="btn btn-primary">Agregar tarjeta</a>
+
+<!-- Botón para recargar saldo -->
+<a href="{% url 'AddSaldo' user.DNI%}" class="btn btn-success">Recargar saldo</a>
+
+{% endblock content %}

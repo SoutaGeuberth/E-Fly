@@ -1,0 +1,25 @@
+{% extends 'todo/layout.html' %}
+
+{% block content %}
+  
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="icon-box">
+        <i class="fa-solid fa-circle-user"></i>
+      </div>
+      <h4 class="modal-title">¿Estás seguro de eliminar la tarjeta?</h4>
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar la tarjeta "{{ tarjeta.numero }}"?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="{% url 'listatarjetas' user.DNI %}" class="btn btn-secondary">CANCELAR</a>
+        <form method="post">
+            {% csrf_token %}
+            <button  type="submit" value="Confirm" class="btn btn-danger">ELIMINAR</button>
+        </form>
+    </div>
+   </div>
+</div>
+{% endblock %}

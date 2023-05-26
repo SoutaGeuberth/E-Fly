@@ -211,3 +211,18 @@ class AddSaldoForm(forms.ModelForm):
         widgets = {
             'saldo': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+        
+class DeleteCardForm(forms.Form):
+    tarjeta_id = forms.IntegerField(label='ID de la Tarjeta')
+
+    def clean_tarjeta_id(self):
+        tarjeta_id = self.cleaned_data['tarjeta_id']
+        # Realiza las validaciones necesarias para asegurarte de que el ID de la tarjeta existe en la base de datos
+        if not Tarjeta.objects.filter(id=tarjeta_id).exists():
+            raise forms.ValidationError('La tarjeta no existe')
+        return tarjeta_id
+
+class DeleteTarjetaForm(forms.Form):
+    confirmacion = forms.BooleanField(label='Confirmar eliminación', required=True)
+
+

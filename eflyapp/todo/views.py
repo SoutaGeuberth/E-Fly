@@ -279,3 +279,30 @@ def administrarcompras(request,DNI):
 def administrarvuelos(request):
 
     return render(request,'todo/administrarvuelos.html')
+
+@login_required
+def listatarjetas(request, DNI):
+    cliente = CustomUser.objects.get(DNI=DNI)
+    tarjetas = Tarjeta.objects.filter(clienteid=cliente)
+
+    context = {'tarjetas': tarjetas, 'cliente': cliente}
+    return render(request, 'todo/listatarjetas.html', context)
+
+@login_required
+def eliminar_tarjeta(request, tarjeta_id):
+    tarjeta = Tarjeta.objects.get(id=tarjeta_id)
+    tarjeta.delete()
+    return redirect('listatarjetas', DNI=request.user.DNI)
+
+class TarjetaDeleteView(DeleteView):
+    model = Tarjeta
+    template_name = 'todo/tarjeta_confirm_delete.html'
+    success_url = reverse_lazy('listatarjetas')
+
+    def get_object(self, queryset=None):
+        tarjeta_id = self.kwargs.get('tarjeta_id')
+        cliente = self.request.user
+        return get_object_or_404(Tarjeta, id=tarjeta_id, clienteid=cliente)
+    
+    
+
